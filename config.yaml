@@ -1,0 +1,20 @@
+general:
+  element_selection_timeout: 10
+  website_url: "https://ebilet.tcddtasimacilik.gov.tr/view/eybis/tnmGenel/tcddWebContent.jsf"
+  driver_path: "D:\\workspace\\train_ticket_bot\\edgedriver_win64\\msedgedriver.exe"
+utility:
+  availability_text_helper_string: "pulman"
+  disabled_passenger_indicator_string: "Engelli koltuğu"
+  economy_class_indicator_string: "(Ekonomi)"
+
+trip_information:
+  from: "Ankara Gar"
+  to: "İstanbul(Söğütlüçeşme)"
+  date: "19.11.2024"
+
+website_information:
+  from_input_id: "nereden"
+  to_input_id: "nereye"
+  date_input_id: "trCalGid_input"
+  search_button_id: "btnSeferSorgula"
+  trip_table_id: "mainTabView:gidisSeferTablosu_data"

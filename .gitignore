@@ -1,0 +1,9 @@
+/venv
+
+/edgedriver_win64
+
+/chrome-win64
+
+__pycache__
+
+**/chromedriver.exe
