@@ -13,7 +13,7 @@ import logging
 @dataclass
 class TicketController:
     driver: ChromiumDriver = field(default=None, init=True)
-    config: ChromiumDriver = field(default=None, init=True)
+    config: Config = field(default=None, init=True)
 
     def __init__(self, driver: ChromiumDriver, config: Config) -> None:
         self.driver = driver
