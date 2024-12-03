@@ -1,9 +1,12 @@
-/venv
+**/venv/
 
-/edgedriver_win64
+**/edgedriver_win64/
 
-/chrome-win64
+**/chrome-win64/
 
 __pycache__
 
+.pytest_cache
 **/chromedriver.exe
+
+**/node_modules/
