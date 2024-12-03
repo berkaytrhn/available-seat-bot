@@ -11,22 +11,23 @@ import logging
 def main():
     cfg = Config("config.yaml").config
     
-    #service = Service(cfg["general"]["driver_path"])
+    service = Service(cfg["general"]["driver_path"])
     
-    #options = Options()
-    #options.add_argument("--start-maximized")
+    options = Options()
+    options.add_argument("--start-maximized")
     # options.add_argument('--headless')  # Ensure Chrome runs in headless mode
     # options.add_argument('--disable-gpu')  # Disable GPU hardware acceleration (sometimes helps with issues)
     # options.add_argument('--no-sandbox')  # Disables the sandboxing feature, which can help in some environments
     
-    #driver = webdriver.Edge(service=service, options=options)
+    driver = webdriver.Edge(service=service, options=options)
     
-    chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument('--no-sandbox')
-    chrome_options.add_argument('--window-size=1920,1080')
-    chrome_options.add_argument('--headless')
-    chrome_options.add_argument('--disable-gpu')
-    driver = webdriver.Chrome(options=chrome_options)
+    # experiment
+    # chrome_options = webdriver.ChromeOptions()
+    # chrome_options.add_argument('--no-sandbox')
+    # chrome_options.add_argument('--window-size=1920,1080')
+    # chrome_options.add_argument('--headless')
+    # chrome_options.add_argument('--disable-gpu')
+    # driver = webdriver.Chrome(options=chrome_options)
     
     controller = TicketController(driver, cfg)
     
