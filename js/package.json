@@ -4,11 +4,16 @@
   "description": "Train Ticket Availability Bot",
   "main": "app.js",
   "scripts": {
+    "start": "cross-env NODE_ENV=development node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "berkaytrhn",
   "license": "MIT",
   "dependencies": {
-    "axios": "^1.7.9"
+    "axios": "^1.7.9",
+    "config": "^3.3.12",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.1",
+    "express": "latest"
   }
 }

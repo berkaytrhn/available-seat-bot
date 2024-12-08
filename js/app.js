@@ -4,11 +4,9 @@
 
 const axios = require("axios");
 const fs = require('fs');
+const cfg = require("config");
 
-const readFile = async (path) => {
-    const data = fs.readFileSync(path, 'utf8');
-    return data;
-}
+
 
 const writeFile = (response, path) => {
     const responseData = JSON.stringify(response.data, null, 2); // Pretty-print the JSON response
@@ -24,21 +22,18 @@ const writeFile = (response, path) => {
 }
 
 
-const main = async () => {
+const main = () => {
 
-    let key = await readFile(".key");
-
-    let id = await readFile(".id");
+    let url = cfg.get('api.url');
+    let key = cfg.get('api.key')
+    let id = cfg.get('api.id')
 
     const headers = {
         'authorization': key,
         'accept': 'application/json, text/plain, */*',
         "unit-id": parseInt(id)
     };
-
-    const api_url = await readFile(".api");
-
-    console.log(typeof api_url);
+    console.log(typeof url);
 
     const params = {
         environment: 'dev',
@@ -59,7 +54,7 @@ const main = async () => {
         "searchReservation": false
     }
 
-    axios.post(api_url, payloadData, {
+    axios.post(url, payloadData, {
         params: params,
         headers: headers
     })
