@@ -2,9 +2,9 @@
   "name": "train_ticket_bot",
   "version": "0.0.1",
   "description": "Train Ticket Availability Bot",
-  "main": "app.js",
+  "main": "app.ts",
   "scripts": {
-    "start": "cross-env NODE_ENV=development node app.js",
+    "start": "cross-env NODE_ENV=development node app.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "berkaytrhn",

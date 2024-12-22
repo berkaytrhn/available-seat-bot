@@ -2,10 +2,10 @@
 // TODO: Might be good to create react typescript application for trip selection 
 // TODO: Create periodic work architectural availability, integrate github.io or vercel later 
 
-const axios = require("axios");
-const fs = require('fs');
-const cfg = require("config");
-const parser = require("./parser");
+import axios from "axios";
+import * as fs from 'fs';
+import cfg from "config";
+import parser from "./parser";
 
 
 

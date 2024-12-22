@@ -16,4 +16,4 @@ class CustomJsonParser{
 }
 
 
-module.exports = CustomJsonParser;
+export default CustomJsonParser;
