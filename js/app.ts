@@ -5,6 +5,7 @@
 const axios = require("axios");
 const fs = require('fs');
 const cfg = require("config");
+const parser = require("./parser");
 
 
 
@@ -47,7 +48,7 @@ const main = () => {
                 "departureStationName": "ANKARA GAR",
                 "arrivalStationId": 1325,
                 "arrivalStationName": "İSTANBUL(SÖĞÜTLÜÇEŞME)",
-                "departureDate": "09-12-2024 21:00:00"
+                "departureDate": "25-12-2024 00:00:00"
             }
         ],
         "passengerTypeCounts": [{ "id": 0, "count": 1 }],
@@ -61,6 +62,7 @@ const main = () => {
         .then(res => {
             console.log('Response data:', res.data);
             writeFile(res, "response.json");
+            // parse json with parser
         })
         .catch(error => {
             console.error('Error occurred:', error);
