@@ -1,10 +1,12 @@
 {
+  "type": "commonjs",
   "name": "train_ticket_bot",
   "version": "0.0.1",
   "description": "Train Ticket Availability Bot",
   "main": "app.ts",
   "scripts": {
-    "start": "cross-env NODE_ENV=development node app.ts",
+    "build": "tsc",
+    "start": "npm run build && cross-env NODE_ENV=development node ./dist/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "berkaytrhn",
@@ -17,6 +19,7 @@
     "express": "latest"
   },
   "devDependencies": {
+    "@types/config": "^3.3.5",
     "@types/node": "^22.10.2",
     "typescript": "^5.7.2"
   }

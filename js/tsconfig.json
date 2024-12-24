@@ -1,9 +1,13 @@
 {
-    "compilerOptions": {
-      "types": ["node"],
-      "moduleResolution": "node",
-      "module": "CommonJS",
-      "target": "ESNext"
-    }
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "CommonJS",
+    "outDir": "./dist",
+    "rootDir": ".",
+    "strict": true,
+    "esModuleInterop": true
+  },
+  "include": ["./**/*.ts"],
+  "exclude": ["./node_modules"]
   }
   

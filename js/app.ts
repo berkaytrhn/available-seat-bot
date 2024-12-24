@@ -6,10 +6,11 @@ import axios from "axios";
 import * as fs from 'fs';
 import cfg from "config";
 import parser from "./parser";
+import { APIResponseData } from "./data";
 
 
 
-const writeFile = (response, path) => {
+const writeFile = (response: any, path: any) => {
     const responseData = JSON.stringify(response.data, null, 2); // Pretty-print the JSON response
 
     // Write the response data to a file
@@ -25,9 +26,9 @@ const writeFile = (response, path) => {
 
 const main = () => {
 
-    let url = cfg.get('api.url');
-    let key = cfg.get('api.key')
-    let id = cfg.get('api.id')
+    let url: any = cfg.get('api.url');
+    let key: any = cfg.get('api.key')
+    let id: any = cfg.get('api.id')
 
     const headers = {
         'authorization': key,
@@ -48,7 +49,7 @@ const main = () => {
                 "departureStationName": "ANKARA GAR",
                 "arrivalStationId": 1325,
                 "arrivalStationName": "İSTANBUL(SÖĞÜTLÜÇEŞME)",
-                "departureDate": "25-12-2024 00:00:00"
+                "departureDate": "27-12-2024 00:00:00"
             }
         ],
         "passengerTypeCounts": [{ "id": 0, "count": 1 }],
@@ -61,6 +62,15 @@ const main = () => {
     })
         .then(res => {
             console.log('Response data:', res.data);
+
+            const response: APIResponseData = res.data;
+            console.log(response);
+
+            response.trainLegs.forEach((trainLeg) => {
+                trainLeg.trainAvailabilities.forEach((trainAvailability) => {
+                    console.log(trainAvailability.trains[0].cars[0].availabilities[0].availability);
+                });
+            });
             writeFile(res, "response.json");
             // parse json with parser
         })
