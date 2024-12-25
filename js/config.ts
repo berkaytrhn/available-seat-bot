@@ -1,0 +1,5 @@
+export const DEPARTURE_STATION_ID = 98;
+export const DEPARTURE_STATION_NAME = "ANKARA GAR";
+export const ARRIVAL_STATION_ID = 1325;
+export const ARRIVAL_STATION_NAME = "İSTANBUL(SÖĞÜTLÜÇEŞME)";
+export const DEPARTURE_DATE = "01-01-2025 00:00:00";

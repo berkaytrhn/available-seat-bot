@@ -16,4 +16,6 @@ __pycache__
 
 **/config/
 
+**/data/
+
 json_notes.txt

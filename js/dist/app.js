@@ -40,7 +40,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
 const fs = __importStar(require("fs"));
+const path = __importStar(require("path"));
 const config_1 = __importDefault(require("config"));
+const config_2 = require("./config");
+const readFile = (filePath) => {
+    if (fs.existsSync(filePath)) {
+        const data = fs.readFileSync(filePath, 'utf8');
+        return JSON.parse(data);
+    }
+    else {
+        console.error(`File ${filePath} does not exist.`);
+        return null;
+    }
+};
 const writeFile = (response, path) => {
     const responseData = JSON.stringify(response.data, null, 2); // Pretty-print the JSON response
     // Write the response data to a file
@@ -51,6 +63,46 @@ const writeFile = (response, path) => {
         else {
             console.log('Response data saved to response.json');
         }
+    });
+};
+const checkForAvailability = (response) => {
+    response.trainLegs.forEach((trainLeg) => {
+        console.log(`Number of Possible Trains: ${trainLeg.resultCount}`);
+        console.log("\tTrain Availabilities:");
+        trainLeg.trainAvailabilities.forEach((trainAvailability) => {
+            console.log(`\t\tTrains:`);
+            trainAvailability.trains.forEach((train) => {
+                console.log(`\t\t\tTrain Id: ${train.id}`);
+                console.log(`\t\t\tTrain Name: ${train.name}`);
+                console.log(`\t\t\tTrain Type: ${train.type}`);
+                console.log(`\t\t\tTrain Departure Station Id: ${train.departureStationId}`);
+                console.log(`\t\t\tTrain Arrival Station Id: ${train.arrivalStationId}`);
+                console.log(`\t\t\tTrain Number: ${train.number}`);
+                console.log(`\t\t\tCars:`);
+                train.cars.forEach((car) => {
+                    console.log(`\t\t\t\tCar Id: ${car.id}`);
+                    console.log(`\t\t\t\tCar Name: ${car.name}`);
+                    console.log(`\t\t\t\tTrain Id: ${car.trainId}`);
+                    console.log(`\t\t\t\tTotal Capacity: ${car.capacity}`);
+                    car.availabilities.forEach((availability) => {
+                        console.log(`\t\t\t\tTrain Car Id: ${availability.trainCarId}`);
+                        console.log(`\t\t\t\tTrain Car Name: ${availability.trainCarName}`);
+                        console.log(`\t\t\t\t----Avaiability----: ${availability.availability}`);
+                        console.log(`\t\t\t\tPricing List:`);
+                        availability.pricingList.forEach((pricingList) => {
+                            console.log(`\t\t\t\t\tBooking Class:`);
+                            const bookingClass = pricingList.bookingClass;
+                            console.log(`\t\t\t\t\t\tBooking Class Id: ${bookingClass.id}`);
+                            console.log(`\t\t\t\t\t\tBooking Class Code: ${bookingClass.code}`);
+                            console.log(`\t\t\t\t\t\tBooking Class Name: ${bookingClass.name}`);
+                            const fareFamily = bookingClass.fareFamily;
+                            console.log(`\t\t\t\t\t\t\tFare Id: ${fareFamily.id}`);
+                            console.log(`\t\t\t\t\t\t\tFare Code: ${fareFamily.name}`);
+                        });
+                    });
+                });
+            }); // [0].cars[0].availabilities[0].availability
+        });
     });
 };
 const main = () => {
@@ -68,36 +120,37 @@ const main = () => {
         userId: '1',
     };
     const payloadData = {
-        "searchRoutes": [
+        searchRoutes: [
             {
-                "departureStationId": 98,
-                "departureStationName": "ANKARA GAR",
-                "arrivalStationId": 1325,
-                "arrivalStationName": "İSTANBUL(SÖĞÜTLÜÇEŞME)",
-                "departureDate": "27-12-2024 00:00:00"
+                departureStationId: config_2.DEPARTURE_STATION_ID,
+                departureStationName: config_2.DEPARTURE_STATION_NAME,
+                arrivalStationId: config_2.ARRIVAL_STATION_ID,
+                arrivalStationName: config_2.ARRIVAL_STATION_NAME,
+                departureDate: config_2.DEPARTURE_DATE
             }
         ],
-        "passengerTypeCounts": [{ "id": 0, "count": 1 }],
-        "searchReservation": false
+        passengerTypeCounts: [{ "id": 0, "count": 1 }],
+        searchReservation: false
     };
-    axios_1.default.post(url, payloadData, {
-        params: params,
-        headers: headers
-    })
-        .then(res => {
-        console.log('Response data:', res.data);
-        const response = res.data;
-        console.log(response);
-        response.trainLegs.forEach((trainLeg) => {
-            trainLeg.trainAvailabilities.forEach((trainAvailability) => {
-                console.log(trainAvailability.trains[0].cars[0].availabilities[0].availability);
-            });
+    const filePath = path.join(`./data/${config_2.DEPARTURE_DATE.split(" ")[0]}.json`);
+    console.log();
+    const res = readFile(filePath);
+    if (res === null) {
+        console.log("File does not exist!");
+        axios_1.default.post(url, payloadData, {
+            params: params,
+            headers: headers
+        }).then(resp => {
+            console.log('Response data:', resp.data);
+            const response = resp.data;
+            writeFile(resp, filePath);
+            checkForAvailability(response);
+        }).catch(error => {
+            console.error('Error occurred:', error);
         });
-        writeFile(res, "response.json");
-        // parse json with parser
-    })
-        .catch(error => {
-        console.error('Error occurred:', error);
-    });
+    }
+    else {
+        checkForAvailability(res);
+    }
 };
 main();
